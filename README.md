@@ -42,3 +42,9 @@ This will launch the development environment after doing some basic checks.
 
 If you want to destroy the development environment and start from scratch run `./cli.sh clean`.
 This will *not* remove the configuration created with `./cli.sh init`, so you could run `./cli.sh start` right after.
+
+### Exporting plugin
+
+If you want to install the production version the easiest way to export the plugin is this command:
+
+    ./cli.sh wp dist-archive /var/www/html/wp-content/plugins/acona /var/www/html/wp-content/plugins/acona/acona.zip
