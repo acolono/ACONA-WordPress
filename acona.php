@@ -32,6 +32,17 @@ function acona_dashboard_widget() {
         }
         $token = esc_attr($settings['token']);
 
+        $items = acona_get_data($token);
+
+        include $templatePath;
+    }
+
+}
+
+function acona_get_data($token){
+
+    if ( false === ( $items = get_transient( 'acona_data' ) ) ) {
+
         $apiResponse = wp_remote_get(
             'https://data.acona.app/rpc/acona_urls_success',
             [
@@ -47,8 +58,10 @@ function acona_dashboard_widget() {
 
         $items = json_decode($apiResponse['body']);
 
-        include $templatePath;
+        set_transient( 'acona_data', $items, 12 * HOUR_IN_SECONDS );
     }
+
+    return $items;
 
 }
 
@@ -56,12 +69,18 @@ function acona_dashboard_widget_options(){
 
     $options = wp_parse_args(
         get_option( 'acona_settings' ),
-        [ 'token' => '']
+        [
+            'token' => '',
+            'domain' => get_site_url()
+        ]
     );
 
     if ( isset( $_POST['submit'] ) ) {
         if ( isset( $_POST['acona_token'] ) ) {
             $options['token'] = esc_attr($_POST['acona_token']);
+        }
+        if ( isset( $_POST['acona_domain'] ) ) {
+            $options['domain'] = esc_attr($_POST['acona_domain']);
         }
 
         update_option( 'acona_settings', $options );
@@ -69,8 +88,13 @@ function acona_dashboard_widget_options(){
 
     ?>
     <p>
-        <label><?php _e( 'Acona token', 'acona' ); ?>
+        <label><?php _e( 'Token', 'acona' ); ?>
             <input type="text" name="acona_token" value="<?php echo esc_attr( $options['token'] ); ?>" />
+        </label>
+    </p>
+    <p>
+        <label><?php _e( 'Domain', 'acona' ); ?>
+            <input type="text" name="acona_domain" value="<?php echo esc_attr( $options['domain'] ); ?>" />
         </label>
     </p>
     <?php
