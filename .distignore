@@ -15,6 +15,7 @@ behat.yml
 bitbucket-pipelines.yml
 bin
 .circleci/config.yml
+cli.sh
 composer.json
 composer.lock
 dependencies.yml
