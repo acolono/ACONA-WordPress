@@ -13,6 +13,14 @@ add_action( 'wp_dashboard_setup', function () {
     );
 } );
 
+add_action( 'admin_enqueue_scripts', function ( $hook ) {
+    $screen = get_current_screen();
+    if ( 'dashboard' === $screen->id ) {
+        wp_enqueue_script( 'acona_script', plugin_dir_url( __FILE__ ) . 'assets/acona.js', [], false, true );
+        wp_enqueue_style( 'acona_style', plugin_dir_url( __FILE__ ) . 'assets/acona.css', [], false );
+    }
+} );
+
 function acona_dashboard_widget() {
 
     $templatePath = implode(

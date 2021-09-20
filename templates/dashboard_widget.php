@@ -1,8 +1,8 @@
-<table style="width: 100%">
+<table>
     <thead>
         <tr>
-            <th style="text-align: left"><?php _e('URL', 'acona'); ?></th>
-            <th style="text-align: left"><?php _e('Score', 'acona'); ?></th>
+            <th><?php _e('URL', 'acona'); ?></th>
+            <th><?php _e('Score', 'acona'); ?></th>
         </tr>
     </thead>
     <?php foreach ($items as $item): ?>
